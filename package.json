@@ -1,0 +1,25 @@
+{
+  "name": "halaqa-windows",
+  "version": "1.0.0",
+  "description": "تطبيق متابعة حلقات القرآن الكريم",
+  "author": "Mahmoud Salah Al-Daramy",
+  "private": true,
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist:win": "electron-builder --win --publish never"
+  },
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.aldaramy.halaqa",
+    "productName": "Halaqa",
+    "directories": { "output": "dist", "buildResources": "build" },
+    "files": ["electron/**/*", "www/**/*", "build/icon.png", "package.json"],
+    "win": { "target": ["nsis", "portable"], "icon": "build/icon.ico" },
+    "nsis": { "oneClick": false, "allowToChangeInstallationDirectory": true, "artifactName": "Halaqa-Setup-${version}.${ext}" },
+    "portable": { "artifactName": "Halaqa-Portable-${version}.${ext}" }
+  }
+}
