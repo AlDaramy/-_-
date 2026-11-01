@@ -26,6 +26,14 @@ h1{font-family:Amiri,'Noto Naskh Arabic',serif;font-size:26px;line-height:2;marg
 .hrow{display:flex;align-items:center;gap:12px}
 .tt{max-width:720px;margin:0 auto;padding:0 14px}
 .thm{border:1px solid var(--line);background:var(--card);border-radius:50%;width:44px;height:44px;font-size:20px;cursor:pointer;line-height:1}
+.item{border:1px solid var(--line);border-radius:12px;padding:10px;margin-top:10px;background:var(--bg)}
+.item input{background:var(--card)}
+.rgr{display:flex;align-items:center;gap:8px;margin-top:8px}
+.rgl{width:40px;font-weight:600;flex:none}
+.rgr select{width:auto;min-width:0;background:var(--card)}
+.rgr .sw{flex:1.7}
+.rgr .aw{flex:1}
+.dot{width:14px;height:14px;border-radius:50%;display:inline-block;flex:none}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
 .lk{display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 8px;font:inherit;font-weight:600;cursor:pointer}
 .lk.full{grid-column:1/-1}
@@ -35,7 +43,7 @@ h1{font-family:Amiri,'Noto Naskh Arabic',serif;font-size:26px;line-height:2;marg
 .av{width:60px;height:60px;flex:none;border-radius:50%;margin:0;border:3px solid var(--gold);background:var(--card);display:flex;align-items:center;justify-content:center;font-size:32px;overflow:hidden;cursor:pointer}
 .av img{width:100%;height:100%;object-fit:cover}
 nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:center;gap:4px;padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));z-index:5}
-nav button{flex:1;max-width:160px;border:0;background:none;color:var(--mut);font:inherit;font-size:13.5px;font-weight:600;padding:8px 4px;border-radius:10px;cursor:pointer}
+nav button{flex:1;max-width:160px;border:0;background:none;color:var(--mut);font:inherit;font-size:12px;font-weight:600;padding:8px 2px;line-height:1.35;border-radius:10px;cursor:pointer}
 nav button.on{background:var(--pri);color:var(--pri-t)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:10px 0}
 .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
@@ -83,12 +91,13 @@ th,td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:right}
 <nav id="nav"></nav>
 <script>
 var S={students:[],groups:[],profile:{name:'مَحْمُود',photo:''}};
-var ui={tab:'today',date:today(),month:today().slice(0,7),sid:null,gid:null,gf:'all',del:null,rep:null,adding:false,addG:false,back:'students',rt:'w',rdate:today()};
+var ui={tab:'today',date:today(),month:today().slice(0,7),sid:null,gid:null,gf:'all',del:null,rep:null,adding:false,addG:false,back:'students',rt:'w',rdate:today(),sp:'m',sdate:today()};
 var ref=null,timer=null,SK='halaqa-v1';
 var DN=[[6,'السَّبْت'],[0,'الأَحَد'],[1,'الاِثْنَيْن'],[2,'الثُّلَاثَاء'],[3,'الأَرْبِعَاء'],[4,'الخَمِيس'],[5,'الجُمُعَة']];
 
 var MSGS=["خَيْرُكُمْ مَنْ تَعَلَّمَ القُرْآنَ وَعَلَّمَهُ ﷺ", "﴿وَلَقَدْ يَسَّرْنَا الْقُرْآنَ لِلذِّكْرِ فَهَلْ مِنْ مُدَّكِرٍ﴾", "المَاهِرُ بِالقُرْآنِ مَعَ السَّفَرَةِ الكِرَامِ البَرَرَةِ ﷺ", "اقْرَؤُوا القُرْآنَ فَإِنَّهُ يَأْتِي يَوْمَ القِيَامَةِ شَفِيعًا لِأَصْحَابِهِ ﷺ", "يُقَالُ لِصَاحِبِ القُرْآنِ: اقْرَأْ وَارْتَقِ وَرَتِّلْ كَمَا كُنْتَ تُرَتِّلُ فِي الدُّنْيَا ﷺ", "مَنْ قَرَأَ حَرْفًا مِنْ كِتَابِ اللهِ فَلَهُ بِهِ حَسَنَةٌ، وَالحَسَنَةُ بِعَشْرِ أَمْثَالِهَا ﷺ", "أَهْلُ القُرْآنِ هُمْ أَهْلُ اللهِ وَخَاصَّتُهُ ﷺ", "﴿إِنَّا نَحْنُ نَزَّلْنَا الذِّكْرَ وَإِنَّا لَهُ لَحَافِظُونَ﴾", "﴿وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا﴾", "﴿وَقُلْ رَبِّ زِدْنِي عِلْمًا﴾", "مَنْ دَلَّ عَلَى خَيْرٍ فَلَهُ مِثْلُ أَجْرِ فَاعِلِهِ ﷺ", "مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللهُ لَهُ بِهِ طَرِيقًا إِلَى الجَنَّةِ ﷺ", "﴿إِنَّ مَعَ الْعُسْرِ يُسْرًا﴾", "﴿إِنَّ اللَّهَ مَعَ الصَّابِرِينَ﴾", "﴿فَاذْكُرُونِي أَذْكُرْكُمْ﴾", "﴿وَمَنْ أَحْسَنُ قَوْلًا مِمَّنْ دَعَا إِلَى اللَّهِ﴾", "﴿وَمَنْ يَتَّقِ اللَّهَ يَجْعَلْ لَهُ مَخْرَجًا﴾", "صَبْرُكَ عَلَى طُلَّابِكَ عِبَادَةٌ، وَكُلُّ حَرْفٍ يَتَعَلَّمُونَهُ فِي مِيزَانِكَ بِإِذْنِ اللهِ.", "أَنْتَ تَغْرِسُ فِي قُلُوبِهِمْ نُورًا لَا يَنْطَفِئُ، فَاسْتَمِرَّ وَلَا تَمَلَّ.", "مَا أَعْظَمَ أَنْ تَكُونَ سَبَبًا فِي أَنْ يَنْطِقَ لِسَانٌ بِكَلَامِ اللهِ!", "ابْدَأْ يَوْمَكَ بِالبَسْمَلَةِ، وَاخْتِمْهُ بِالحَمْدَلَةِ، وَبَيْنَهُمَا قُرْآنٌ.", "كُلُّ طَالِبٍ تُحَفِّظُهُ هُوَ صَدَقَةٌ جَارِيَةٌ لَكَ بِإِذْنِ اللهِ.", "الإِخْلَاصُ أَوَّلُ الطَّرِيقِ، وَالصَّبْرُ زَادُهُ، وَالقُرْآنُ غَايَتُهُ.", "لَا تَسْتَقِلَّ قَلِيلَ العَمَلِ؛ فَقَطَرَاتُ المَاءِ تَصْنَعُ الأَنْهَارَ.", "رَبِّ اجْعَلْنَا مِنْ أَهْلِ القُرْآنِ الَّذِينَ هُمْ أَهْلُكَ وَخَاصَّتُكَ.", "اللَّهُمَّ بَارِكْ فِي وَقْتِكَ وَجُهْدِكَ، وَاجْعَلْ عَمَلَكَ خَالِصًا لِوَجْهِهِ الكَرِيمِ.", "تَعْلِيمُ القُرْآنِ شَرَفٌ لَا يَنَالُهُ إِلَّا مَنِ اصْطَفَاهُ اللهُ.", "ابْتَسِمْ لِطَالِبِكَ؛ فَبَسْمَتُكَ تُحَبِّبُ إِلَيْهِ القُرْآنَ.", "اللِّينُ فِي التَّعْلِيمِ يَفْتَحُ القُلُوبَ قَبْلَ الأَسْمَاعِ.", "دَعْوَةٌ صَادِقَةٌ لِطُلَّابِكَ فِي ظَهْرِ الغَيْبِ تَصْنَعُ مَا لَا تَصْنَعُهُ الكَلِمَاتُ.", "لَا تَيْأَسْ مِنْ طَالِبٍ بَطِيءِ الحِفْظِ؛ فَرُبَّ بَطِيءٍ صَارَ إِمَامًا.", "مَنْ صَبَرَ عَلَى تَحْفِيظِ القُرْآنِ نَالَ شَرَفَ الدُّنْيَا وَفَضْلَ الآخِرَةِ.", "اجْعَلْ لِنَفْسِكَ وِرْدًا لَا تَتْرُكُهُ، فَالمُعَلِّمُ أَوَّلُ مَنْ يَلْتَزِمُ.", "أَحَبُّ الأَعْمَالِ إِلَى اللهِ أَدْوَمُهَا وَإِنْ قَلَّ ﷺ", "إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ، فَجَدِّدْ نِيَّتَكَ كُلَّ يَوْمٍ ﷺ", "تَعَاهَدُوا القُرْآنَ فَوَالَّذِي نَفْسِي بِيَدِهِ لَهُوَ أَشَدُّ تَفَلُّتًا مِنَ الإِبِلِ فِي عُقُلِهَا ﷺ", "﴿هَلْ يَسْتَوِي الَّذِينَ يَعْلَمُونَ وَالَّذِينَ لَا يَعْلَمُونَ﴾", "﴿يَرْفَعِ اللَّهُ الَّذِينَ آمَنُوا مِنْكُمْ وَالَّذِينَ أُوتُوا الْعِلْمَ دَرَجَاتٍ﴾", "مَا اجْتَمَعَ قَوْمٌ فِي بَيْتٍ مِنْ بُيُوتِ اللهِ يَتْلُونَ كِتَابَ اللهِ وَيَتَدَارَسُونَهُ بَيْنَهُمْ إِلَّا نَزَلَتْ عَلَيْهِمُ السَّكِينَةُ وَغَشِيَتْهُمُ الرَّحْمَةُ ﷺ", "حَلْقَاتُ القُرْآنِ تَحُفُّهَا المَلَائِكَةُ وَتَغْشَاهَا الرَّحْمَةُ.", "كُنْ لِطُلَّابِكَ قُدْوَةً قَبْلَ أَنْ تَكُونَ مُعَلِّمًا.", "الطَّالِبُ الغَائِبُ اليَوْمَ قَدْ يَعُودُ غَدًا بِهِمَّةٍ أَعْلَى؛ فَاصْبِرْ عَلَيْهِ.", "كَمْ مِنْ آيَةٍ حَفِظَهَا طَالِبُكَ سَتَشْهَدُ لَكَ يَوْمَ القِيَامَةِ بِإِذْنِ اللهِ.", "احْرِصْ عَلَى مَا يَنْفَعُكَ وَاسْتَعِنْ بِاللهِ وَلَا تَعْجِزْ ﷺ", "رَبِّ يَسِّرْ وَلَا تُعَسِّرْ، رَبِّ تَمِّمْ بِالخَيْرِ.", "بَارَكَ اللهُ فِي عُمُرِكَ وَعِلْمِكَ وَطُلَّابِكَ، وَجَعَلَ القُرْآنَ رَبِيعَ قَلْبِكَ.", "كُلُّ خُطْوَةٍ فِي طَرِيقِ القُرْآنِ تَرْفَعُكَ دَرَجَةً، فَلَا تَتَوَقَّفْ.", "﴿إِنَّا لَا نُضِيعُ أَجْرَ مَنْ أَحْسَنَ عَمَلًا﴾", "يَوْمٌ مَعَ القُرْآنِ يُنِيرُ الدُّنْيَا وَالآخِرَةَ؛ فَابْدَأْهُ بِهِمَّةٍ.", "سَدِّدُوا وَقَارِبُوا وَأَبْشِرُوا ﷺ"];
 var MSG=(function(){var k='halaqa-msg',i=Math.floor(Math.random()*MSGS.length);try{var l=localStorage.getItem(k);if(l!==null&&+l===i)i=(i+1)%MSGS.length;localStorage.setItem(k,String(i))}catch(e){}return MSGS[i]})();
+var APPV='';try{APPV=new URLSearchParams(location.search).get('v')||''}catch(e){}
 function today(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function $(id){return document.getElementById(id)}
@@ -134,7 +143,7 @@ async function load(){
 /* ---------- حسابات ---------- */
 function rec(s,d){return (s.recs||{})[d]}
 function setRec(s,d,patch){s.recs=s.recs||{};var r=s.recs[d]||{att:'',res:'',pages:0,note:''};Object.assign(r,patch);s.recs[d]=r;save()}
-function resOf(r){return r.res||(r.done?'h':'')}
+function resOf(r){var v=Object.keys(r.rs||{}).map(function(k){return r.rs[k]}).filter(Boolean);if(v.length){if(v.every(function(x){return x==='n'}))return 'n';return v.indexOf('r')>-1?'r':'h'}return r.res||(r.done?'h':'')}
 function okRes(r){var q=resOf(r);return q==='h'||q==='r'}
 function isDay(s,d){return (s.days||[]).indexOf(new Date(d+'T12:00:00').getDay())>-1}
 function dates(s){var ds=Object.keys(s.recs||{}).sort();return (s.days&&s.days.length)?ds.filter(function(d){return isDay(s,d)}):ds}
@@ -166,19 +175,23 @@ function upDay(k,on){var s=stu(ui.sid);var a=(s.days||[]).filter(function(x){ret
 
 /* ---------- العرض ---------- */
 function render(){
-  var cur={group:'students',student:'students',analysis:'students'}[ui.tab]||ui.tab;
-  var tabs=[['today','حِصَّةُ اليَوْمِ'],['students','الحَلَقَاتُ'],['stats','الإِحْصَائِيَّاتُ'],['settings','الإِعْدَادَاتُ']];
+  var cur={group:'students',student:'students',analysis:'students',session:'today'}[ui.tab]||ui.tab;
+  var tabs=[['today','حِصَّةُ اليَوْمِ'],['students','الحَلَقَاتُ'],['duty','الدَّوَامُ'],['stats','الإِحْصَائِيَّاتُ'],['settings','الإِعْدَادَاتُ']];
   $('nav').innerHTML=tabs.map(function(t){return '<button class="'+(cur===t[0]?'on':'')+'" data-t="'+t[0]+'">'+t[1]+'</button>'}).join('');
   $('nav').onclick=function(e){var t=e.target.getAttribute('data-t');if(t){ui.sid=null;ui.rep=null;ui.del=null;go(t)}};
   var p=S.profile||{},ph=(p.photo||'').indexOf('data:image/')===0?p.photo:'';
   $('hd').innerHTML='<div class="top"><div class="hrow"><div class="av" onclick="go(\'settings\')">'+(ph?'<img alt="" src="'+ph+'">':'📖')+'</div><div class="hello">أَهْلًا بِكَ يَا '+esc(p.name||'')+'</div></div><button class="thm" onclick="toggleTheme()" aria-label="الوضع الليلي والنهاري">'+(isDark()?'☀️':'🌙')+'</button></div><div class="tt"><h1>تَـطْـبِـيـقُ مُـتَـابَـعَـةِ حَـلَـقَـاتِ الْـقُـرْآنِ الْـكَـرِيـمِ</h1><div class="verse">'+esc(MSG)+'</div></div>';
-  var f={today:vToday,students:vGroups,group:vGroup,student:vStudent,analysis:vAnalysis,stats:vStats,settings:vSettings}[ui.tab];
+  var f={today:vToday,session:vSession,duty:vDuty,students:vGroups,group:vGroup,student:vStudent,analysis:vAnalysis,stats:vStats,settings:vSettings}[ui.tab];
   $('app').innerHTML=f();
+  if(ui.tab!=='today')enter();
 }
 function isDark(){var t=(S.profile||{}).theme;return t==='dark'||(t!=='light'&&!!window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)}
 function applyTheme(){var t=(S.profile||{}).theme;if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t);else document.documentElement.removeAttribute('data-theme')}
 function toggleTheme(){S.profile.theme=isDark()?'light':'dark';applyTheme();save();render()}
-function go(t){ui.tab=t;ui.adding=false;ui.addG=false;render();toTop()}
+var guard=false;
+function enter(){if(!guard){try{history.pushState({g:1},'')}catch(e){}guard=true}}
+window.addEventListener('popstate',function(){if(guard){guard=false;if(ui.tab!=='today'){ui.sid=null;ui.rep=null;ui.del=null;ui.adding=false;ui.addG=false;ui.tab='today';render();toTop()}}});
+function go(t){if(t==='today'&&guard){guard=false;try{history.back()}catch(e){}}ui.tab=t;ui.adding=false;ui.addG=false;render();toTop()}
 function noStudents(){return '<div class="card empty">لَمْ تُضِفْ أَيَّ طَالِبٍ بَعْدُ.<br><br><button class="btn p" onclick="go(\'students\')">اذْهَبْ إِلَى الحَلَقَاتِ</button></div>'}
 function gfBar(){
   if(!S.groups.length)return '';
@@ -187,41 +200,85 @@ function gfBar(){
 }
 
 /* حصة اليوم */
+var LBL={h:'حِفْظٌ',t:'تَثْبِيتٌ',m:'مُرَاجَعَةٌ'};
+function dutyList(d){var any=S.students.some(function(s){return s.days&&s.days.length});return S.students.filter(function(s){var r=rec(s,d);return any?(isDay(s,d)||(r&&r.att)):true})}
+function noDuty(d){
+  var un=S.students.filter(function(s){return !(s.days&&s.days.length)}).length;
+  return '<div class="card empty" style="padding:46px 10px"><div style="font-size:46px">🌿</div><div style="font-size:28px;font-weight:700;color:var(--pri);margin:8px 0">'+(d===today()?'لَا يُوجَدُ دَوَامٌ اليَوْمَ':'لَا يُوجَدُ دَوَامٌ فِي هَذَا اليَوْمِ')+'</div><div style="font-size:21px;color:var(--ink)">اسْتَمْتِعْ بِوَقْتِكَ ☕😊</div>'+(un&&un<S.students.length?'<div class="mut" style="margin-top:18px">ملاحظة: '+un+' طالب لم تُحدَّد أيام حلقاتهم، لذلك لا يظهرون في أي يوم.</div>':'')+'</div>';
+}
 function vToday(){
-  var L=S.students.filter(inGf);
-  var P=L.filter(function(s){var r=rec(s,ui.date);return r&&r.att==='p'}).length;
+  var all=dutyList(ui.date),L=all.filter(inGf);
   var h='<div class="card row sp"><div><div class="big">حِصَّةُ اليَوْمِ</div><div style="font-weight:600;margin-top:2px">'+dateLabel(ui.date)+'</div><div class="mut">الوَقْتُ الآنَ: <span class="clk" id="clk">'+clockStr()+'</span></div></div><input type="date" style="width:auto" value="'+ui.date+'" onchange="ui.date=this.value||ui.date;render()"></div>';
-  h+=gfBar();
   if(!S.students.length)return h+noStudents();
+  if(!all.length)return h+noDuty(ui.date);
+  h+=gfBar();
   if(!L.length)return h+'<div class="empty">لَا يُوجَدُ طُلَّابٌ فِي هَذِهِ الحَلْقَةِ.</div>';
+  var P=L.filter(function(s){var r=rec(s,ui.date);return r&&r.att==='p'}).length;
   h+='<div class="mut" style="text-align:center">حَاضِرُونَ: '+P+' مِنْ '+L.length+'</div>';
   L.forEach(function(s){
-    var r=rec(s,ui.date)||{},g=grp(s.gid);
-    h+='<div class="card"><div class="row sp"><b '+A('openS',s.id)+' style="cursor:pointer">'+esc(s.name)+'</b><span>'+planChips(s)+'</span></div>';
-    if(g&&ui.gf==='all')h+='<div class="mut">'+esc(g.name)+'</div>';
-    if(isDay(s,ui.date))h+='<div class="hw">🕞 مَوْعِدُ الحَلْقَةِ اليَوْمَ: '+fmtTime(s.time)+'</div>';
-    if(s.hw)h+='<div class="hw">📌 المَطْلُوبُ: '+esc(s.hw)+'</div>';
-    h+='<div class="att"><button class="a-p '+(r.att==='p'?'on':'')+'" '+A('att',s.id,'p')+'>حَاضِرٌ</button><button class="a-e '+(r.att==='e'?'on':'')+'" '+A('att',s.id,'e')+'>غِيَابٌ بِعُذْرٍ</button><button class="a-x '+(r.att==='x'?'on':'')+'" '+A('att',s.id,'x')+'>غِيَابٌ بِدُونِ عُذْرٍ</button></div>';
-    if(r.att==='p'){
-      h+='<div class="att">'+resBtns(s,r)+'</div>';
-      if(resOf(r)==='h'||resOf(r)==='r'){
-        var pl=s.plan||{},ks=['h','t','m'].filter(function(k){return pl[k]});if(!ks.length)ks=['h'];
-        if(ks.indexOf('h')>-1)h+='<div class="row" style="margin-top:10px"><span class="mut">صَفَحَاتٌ جَدِيدَةٌ:</span><input type="number" min="0" step="0.5" style="width:80px" value="'+(r.pages||'')+'" onchange="pg(\''+s.id+'\',this.value)"></div>';
-        h+='<div class="row" style="align-items:flex-start">'+ks.map(function(k){return '<div style="flex:1;min-width:150px"><label>'+{h:'حِفْظٌ',t:'تَثْبِيتٌ',m:'مُرَاجَعَةٌ'}[k]+'</label><input placeholder="مَاذَا سَمَّعَ؟" value="'+esc((r.nt||{})[k]||'')+'" onchange="ntx(\''+s.id+'\',\''+k+'\',this.value)"></div>'}).join('')+'</div>';
-      }
-    }
-    h+='<div class="mut" style="margin-top:8px">🔥 أَيَّامُ التَّسْمِيعِ المُتَتَالِيَةُ: '+streak(s)+'</div></div>';
+    var r=rec(s,ui.date)||{},c={p:'var(--ok)',e:'var(--warn)',x:'var(--bad)'}[r.att]||'var(--line)';
+    h+='<div class="card row sp" style="cursor:pointer;padding:16px" '+A('openSess',s.id)+'><b style="font-size:18px">'+esc(s.name)+'</b><span class="dot" style="background:'+c+'"></span></div>';
   });
   return h;
 }
-function resBtns(s,r){var v=resOf(r);return [['h','a-p','حَافِظٌ'],['r','a-e','يُعِيدُ التَّسْمِيعَ'],['n','a-x','لَمْ يُسَمِّعْ']].map(function(o){return '<button class="'+o[1]+' '+(v===o[0]?'on':'')+'" '+A('setRes',s.id,o[0])+'>'+o[2]+'</button>'}).join('')}
-function setRes(id,v){var s=stu(id),r=rec(s,ui.date)||{};setRec(s,ui.date,{res:resOf(r)===v?'':v});render()}
+function openSess(id){ui.sid=id;ui.tab='session';render();toTop()}
+function vSession(){
+  var s=stu(ui.sid);if(!s){ui.tab='today';return vToday()}
+  var r=rec(s,ui.date)||{},g=grp(s.gid),L=dutyList(ui.date).filter(inGf),i=L.findIndex(function(x){return x.id===s.id}),nx=i>-1?L[i+1]:null;
+  var h='<div class="row sp"><button class="btn sm" onclick="go(\'today\')">← رُجُوعٌ</button><button class="btn sm" '+A('openS',s.id)+'>📂 مِلَفُّ الطَّالِبِ</button></div>';
+  h+='<div class="card"><div class="big" style="text-align:center">'+esc(s.name)+'</div><div style="text-align:center;font-weight:600;margin-top:4px">'+dateLabel(ui.date)+'</div><div style="text-align:center;margin-top:6px">'+planChips(s)+'</div>';
+  if(g)h+='<div class="mut" style="text-align:center">'+esc(g.name)+'</div>';
+  if(isDay(s,ui.date))h+='<div class="hw">🕞 مَوْعِدُ الحَلْقَةِ اليَوْمَ: '+fmtTime(s.time)+'</div>';
+  if(s.hw)h+='<div class="hw">📌 المَطْلُوبُ: '+esc(s.hw)+'</div>';
+  h+='<div class="att"><button class="a-p '+(r.att==='p'?'on':'')+'" '+A('att',s.id,'p')+'>حَاضِرٌ</button><button class="a-e '+(r.att==='e'?'on':'')+'" '+A('att',s.id,'e')+'>غِيَابٌ بِعُذْرٍ</button><button class="a-x '+(r.att==='x'?'on':'')+'" '+A('att',s.id,'x')+'>غِيَابٌ بِدُونِ عُذْرٍ</button></div>';
+  if(r.att==='p'){
+    var pl=s.plan||{},ks=['h','t','m'].filter(function(k){return pl[k]});if(!ks.length)ks=['h'];
+    h+=ks.map(function(k){var v=(r.rs||{})[k]||'',g=(r.rg||{})[k]||{};
+      return '<div class="item"><div class="row sp"><b>'+LBL[k]+'</b><select style="width:auto;min-width:140px" onchange="setRs(\''+s.id+'\',\''+k+'\',this.value)"><option value="">— الحَالَةُ —</option><option value="h" '+(v==='h'?'selected':'')+'>حَافِظٌ</option><option value="r" '+(v==='r'?'selected':'')+'>يُعِيدُ التَّسْمِيعَ</option><option value="n" '+(v==='n'?'selected':'')+'>لَمْ يُسَمِّعْ</option></select></div><div class="mut" style="margin-top:10px">مَاذَا سَمَّعَ؟</div>'+rgRow(s,k,'مِنْ','f',g)+rgRow(s,k,'إِلَى','t',g)+'</div>';
+    }).join('');
+  }
+  h+='<div class="mut" style="margin-top:12px">🔥 أَيَّامُ التَّسْمِيعِ المُتَتَالِيَةُ: '+streak(s)+'</div></div>';
+  if(nx)h+='<button class="btn p" style="width:100%" '+A('openSess',nx.id)+'>الطَّالِبُ التَّالِي ←</button>';
+  return h;
+}
 function att(id,v){var s=stu(id),r=rec(s,ui.date)||{};setRec(s,ui.date,{att:r.att===v?'':v});render()}
-function pg(id,v){setRec(stu(id),ui.date,{pages:Number(v)||0})}
+function setRs(id,k,v){var s=stu(id),r=rec(s,ui.date)||{},n=Object.assign({},r.rs||{});n[k]=v;setRec(s,ui.date,{rs:n,res:''});render()}
+var SUR=[['الفاتحة',7],['البقرة',286],['آل عمران',200],['النساء',176],['المائدة',120],['الأنعام',165],['الأعراف',206],['الأنفال',75],['التوبة',129],['يونس',109],['هود',123],['يوسف',111],['الرعد',43],['إبراهيم',52],['الحجر',99],['النحل',128],['الإسراء',111],['الكهف',110],['مريم',98],['طه',135],['الأنبياء',112],['الحج',78],['المؤمنون',118],['النور',64],['الفرقان',77],['الشعراء',227],['النمل',93],['القصص',88],['العنكبوت',69],['الروم',60],['لقمان',34],['السجدة',30],['الأحزاب',73],['سبأ',54],['فاطر',45],['يس',83],['الصافات',182],['ص',88],['الزمر',75],['غافر',85],['فصلت',54],['الشورى',53],['الزخرف',89],['الدخان',59],['الجاثية',37],['الأحقاف',35],['محمد',38],['الفتح',29],['الحجرات',18],['ق',45],['الذاريات',60],['الطور',49],['النجم',62],['القمر',55],['الرحمن',78],['الواقعة',96],['الحديد',29],['المجادلة',22],['الحشر',24],['الممتحنة',13],['الصف',14],['الجمعة',11],['المنافقون',11],['التغابن',18],['الطلاق',12],['التحريم',12],['الملك',30],['القلم',52],['الحاقة',52],['المعارج',44],['نوح',28],['الجن',28],['المزمل',20],['المدثر',56],['القيامة',40],['الإنسان',31],['المرسلات',50],['النبأ',40],['النازعات',46],['عبس',42],['التكوير',29],['الانفطار',19],['المطففين',36],['الانشقاق',25],['البروج',22],['الطارق',17],['الأعلى',19],['الغاشية',26],['الفجر',30],['البلد',20],['الشمس',15],['الليل',21],['الضحى',11],['الشرح',8],['التين',8],['العلق',19],['القدر',5],['البينة',8],['الزلزلة',8],['العاديات',11],['القارعة',11],['التكاثر',8],['العصر',3],['الهمزة',9],['الفيل',5],['قريش',4],['الماعون',7],['الكوثر',3],['الكافرون',6],['النصر',3],['المسد',5],['الإخلاص',4],['الفلق',5],['الناس',6]];
+function surMax(n){return n?SUR[n-1][1]:0}
+function surOpts(v){return '<option value="">— السُّورَةُ —</option>'+SUR.map(function(s,i){return '<option value="'+(i+1)+'"'+(String(v)===String(i+1)?' selected':'')+'>'+s[0]+'</option>'}).join('')}
+function ayOpts(sn,v){var n=surMax(sn),o='<option value="">— الآيَةُ —</option>',i;for(i=1;i<=n;i++)o+='<option value="'+i+'"'+(String(v)===String(i)?' selected':'')+'>'+i+'</option>';return o}
+function rgRow(s,k,lab,p,g){return '<div class="rgr"><span class="rgl">'+lab+'</span><select class="sw" onchange="setRg(\''+s.id+'\',\''+k+'\',\''+p+'s\',this.value)">'+surOpts(g[p+'s'])+'</select><select class="aw" onchange="setRg(\''+s.id+'\',\''+k+'\',\''+p+'a\',this.value)">'+ayOpts(g[p+'s'],g[p+'a'])+'</select></div>'}
+function setRg(id,k,fld,v){
+  var s=stu(id),r=rec(s,ui.date)||{},all=Object.assign({},r.rg||{}),g=Object.assign({},all[k]||{});
+  g[fld]=v===''?'':+v;
+  if(fld==='fs'){if(!g.fs){g.fa=''}else{g.fa=g.fa?Math.min(g.fa,surMax(g.fs)):1;if(!g.ts)g.ts=g.fs}}
+  if(fld==='fa'&&g.ts===g.fs&&(!g.ta||g.ta<g.fa))g.ta=g.fa;
+  if(fld==='ts'){if(!g.ts)g.ta='';else if(g.ta)g.ta=Math.min(g.ta,surMax(g.ts))}
+  all[k]=g;setRec(s,ui.date,{rg:all});render();
+}
+function rgStr(g){
+  g=g||{};if(!g.fs)return '';var a=SUR[g.fs-1][0];
+  if(g.ts&&g.ts===g.fs)return 'سورة '+a+' من الآية '+(g.fa||1)+(g.ta?' إلى '+g.ta:'');
+  return 'من سورة '+a+' (آية '+(g.fa||1)+')'+(g.ts?' إلى سورة '+SUR[g.ts-1][0]+(g.ta?' (آية '+g.ta+')':''):'');
+}
+function itemsStr(r){var S2={h:'حَافِظٌ',r:'يُعِيدُ التَّسْمِيعَ',n:'لَمْ يُسَمِّعْ'};var a=['h','t','m'].filter(function(k){return (r.rs||{})[k]||(r.nt||{})[k]||(r.rg||{})[k]}).map(function(k){var st=(r.rs||{})[k],tx=[rgStr((r.rg||{})[k]),(r.nt||{})[k]].filter(Boolean).join(' — ');return LBL[k]+(st?' ('+S2[st]+')':'')+(tx?': '+tx:'')});if(!a.length&&r.att==='p'&&resOf(r))a.push(S2[resOf(r)]);if(r.note)a.push(r.note);return a.join(' | ')}
 function ntx(id,k,v){var s=stu(id),r=rec(s,ui.date)||{},n=Object.assign({},r.nt||{});n[k]=v;setRec(s,ui.date,{nt:n})}
-function ntStr(r){var a=['h','t','m'].filter(function(k){return (r.nt||{})[k]}).map(function(k){return {h:'حفظ',t:'تثبيت',m:'مراجعة'}[k]+': '+r.nt[k]});if(r.note)a.push(r.note);return a.join(' | ')}
-function openS(id){ui.back=ui.tab==='today'?'today':(ui.tab==='group'?'group':'students');ui.tab='student';ui.sid=id;ui.rep=null;ui.del=null;render();toTop()}
-function back(){ui.tab=ui.back||'students';ui.sid=null;ui.rep=null;render();toTop()}
+function itemsStrOld(r){var S2={h:'حَافِظٌ',r:'يُعِيدُ التَّسْمِيعَ',n:'لَمْ يُسَمِّعْ'};var a=['h','t','m'].filter(function(k){return (r.rs||{})[k]||(r.nt||{})[k]}).map(function(k){var st=(r.rs||{})[k],tx=(r.nt||{})[k];return LBL[k]+(st?' ('+S2[st]+')':'')+(tx?': '+tx:'')});if(!a.length&&r.att==='p'&&resOf(r))a.push(S2[resOf(r)]);if(r.note)a.push(r.note);return a.join(' | ')}
+
+/* الدوام */
+function vDuty(){
+  var d=today(),on=S.students.filter(function(s){return isDay(s,d)}),any=S.students.some(function(s){return s.days&&s.days.length});
+  var h='<div class="card"><div class="big">الدَّوَامُ</div><div style="font-weight:600;margin-top:2px">'+dateLabel(d)+'</div></div>';
+  if(!S.students.length)return h+noStudents();
+  if(!any)return h+'<div class="card empty">حَدِّدْ أَيَّامَ الحَلْقَةِ لِطُلَّابِكَ (مِنْ مِلَفِّ كُلِّ طَالِبٍ) لِيَعْرِفَ التَّطْبِيقُ أَيَّامَ دَوَامِكَ.</div>';
+  if(!on.length)return h+noDuty(d);
+  var by={};on.forEach(function(s){var t=s.time||'15:30';(by[t]=by[t]||[]).push(s)});
+  h+='<div class="card empty" style="padding:30px 10px"><div style="font-size:42px">🌟</div><div style="font-size:26px;font-weight:700;color:var(--pri)">عِنْدَكَ دَوَامٌ اليَوْمَ</div></div>';
+  Object.keys(by).sort().forEach(function(t){h+='<div class="card"><div class="row sp"><b>🕞 '+fmtTime(t)+'</b><span class="mut">'+by[t].length+' طالب</span></div><div class="mut" style="margin-top:6px">'+by[t].map(function(s){return esc(s.name)}).join('، ')+'</div></div>'});
+  return h+'<button class="btn p" style="width:100%" onclick="go(\'today\')">ابْدَأْ حِصَّةَ اليَوْمِ</button>';
+}
+function openS(id){ui.back=ui.tab==='session'?'session':(ui.tab==='group'?'group':'students');ui.tab='student';ui.sid=id;ui.rep=null;ui.del=null;render();toTop()}
+function back(){var b=ui.back||'students';if(b==='session'){ui.tab='session';ui.rep=null;render();toTop();return}if(b==='today'){ui.sid=null;ui.rep=null;go('today');return}ui.tab=b;ui.sid=null;ui.rep=null;render();toTop()}
 
 /* الحلقات */
 function vGroups(){
@@ -275,7 +332,7 @@ function vStudent(){
   if(ui.rep!==null)h+='<div class="pre" style="margin-top:10px" id="rep">'+esc(ui.rep)+'</div><div class="row" style="margin-top:10px"><button class="btn" onclick="copyRep()">نَسْخٌ</button><button class="btn p" onclick="waRep()">فَتْحُ وَاتْسَابٍ</button></div>';
   h+='</div>';
   var ds=Object.keys(s.recs||{}).sort().reverse().slice(0,10);
-  if(ds.length)h+='<div class="card"><b>آخِرُ الحِصَصِ</b><div class="scroll"><table>'+ds.map(function(d){var r=s.recs[d];return '<tr><td>'+d+'</td><td>'+({p:'حاضر',e:'غياب بعذر',x:'غياب بدون عذر'}[r.att]||'—')+'</td><td>'+(r.att==='p'?({h:'حافظ',r:'يعيد التسميع',n:'لم يسمّع'}[resOf(r)]||'—'):'')+'</td><td>'+esc(ntStr(r))+'</td></tr>'}).join('')+'</table></div></div>';
+  if(ds.length)h+='<div class="card"><b>آخِرُ الحِصَصِ</b><div class="scroll"><table>'+ds.map(function(d){var r=s.recs[d];return '<tr><td>'+d+'</td><td>'+({p:'حاضر',e:'غياب بعذر',x:'غياب بدون عذر'}[r.att]||'—')+'</td><td>'+(r.att==='p'?({h:'حافظ',r:'يعيد التسميع',n:'لم يسمّع'}[resOf(r)]||'—'):'')+'</td><td>'+esc(itemsStr(r))+'</td></tr>'}).join('')+'</table></div></div>';
   h+=ui.del===s.id?'<div class="card"><div style="margin-bottom:8px">سَيُحْذَفُ الطَّالِبُ وَكُلُّ سِجِلِّهِ نِهَائِيًّا.</div><button class="btn d" onclick="delS()">نَعَمْ، احْذِفْ</button> <button class="btn" onclick="ui.del=null;render()">إِلْغَاءٌ</button></div>':'<button class="btn d" '+A('setDel',s.id)+'>حَذْفُ الطَّالِبِ</button>';
   return h;
 }
@@ -300,15 +357,14 @@ function mkRep(){
     for(i=0;i<7;i++){
       var d=addDays(a,i),r=rec(s,d);if(!r||!r.att)continue;any=true;
       var x={p:'حَاضِرٌ',e:'غِيَابٌ بِعُذْرٍ',x:'غِيَابٌ بِدُونِ عُذْرٍ'}[r.att];
-      if(r.att==='p'){var q={h:'حَافِظٌ',r:'يُعِيدُ التَّسْمِيعَ',n:'لَمْ يُسَمِّعْ'}[resOf(r)];if(q)x+=' — '+q;var ns=ntStr(r);if(ns)x+=' ('+ns+')';if(r.pages)x+=' — '+r.pages+' صَفْحَةً'}
+      if(r.att==='p'){var ns=itemsStr(r);if(ns)x+=' — '+ns}
       t+='• '+dayName(d)+' '+sh(d)+': '+x+'\n';
     }
     if(!any)t+='لَا تُوجَدُ حِصَصٌ مُسَجَّلَةٌ فِي هَذَا الأُسْبُوعِ.\n';
     t+='\nالخُلَاصَةُ:\n';
   }else{m=monthStats(s,ui.month);t+='عَنْ شَهْرِ '+monthName(ui.month)+'\n\n'}
-  t+='• الحُضُورُ: '+m.p+' حِصَصٍ'+(m.e?' | غِيَابٌ بِعُذْرٍ: '+m.e:'')+(m.x?' | غِيَابٌ بِدُونِ عُذْرٍ: '+m.x:'')+'\n';
+  t+='• عَدَدُ حِصَصِ الحُضُورِ: '+m.p+(m.e?' | غِيَابٌ بِعُذْرٍ: '+m.e:'')+(m.x?' | غِيَابٌ بِدُونِ عُذْرٍ: '+m.x:'')+'\n';
   t+='• حِصَصُ الحِفْظِ: '+m.done+(m.rep?' | إِعَادَةُ التَّسْمِيعِ: '+m.rep:'')+(m.none?' | لَمْ يُسَمِّعْ: '+m.none:'')+'\n';
-  if(m.pages)t+='• الصَّفَحَاتُ الجَدِيدَةُ: '+m.pages+'\n';
   t+='• أَيَّامُ الِالْتِزَامِ المُتَتَالِيَةُ بِالتَّسْمِيعِ: '+st+'\n';
   if(s.hw)t+='• الوَاجِبُ القَادِمُ: '+s.hw+'\n';
   if(s.notes)t+='• مُلَاحَظَاتٌ: '+s.notes+'\n';
@@ -327,18 +383,18 @@ function analysisData(s){
   var a=agg(s),days=Math.max(1,Math.floor((new Date(today()+'T12:00:00')-new Date(s.joined+'T12:00:00'))/864e5)+1),sc=schedCount(s);
   var commit=a.p?Math.round((a.done+a.rep)/a.p*100):0,juz=Math.round(a.pages/20*10)/10,g=grp(s.gid);
   var d=new Date(),ms=[],i;for(i=5;i>=0;i--){var x=new Date(d.getFullYear(),d.getMonth()-i,1);ms.push(x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0'))}
-  var vals=ms.map(function(m){return monthStats(s,m).pages}),mx=Math.max.apply(null,vals.concat([1]));
+  var vals=ms.map(function(m){var q=monthStats(s,m);return q.done+q.rep}),mx=Math.max.apply(null,vals.concat([1]));
   var v=a.total<3?'البَيَانَاتُ قَلِيلَةٌ؛ سَجِّلْ حِصَصًا أَكْثَرَ لِيَظْهَرَ التَّحْلِيلُ بِدِقَّةٍ.':(a.pct>=85&&commit>=85?'مُمْتَازٌ: حُضُورُهُ وَالْتِزَامُهُ بِالتَّسْمِيعِ عَالِيَانِ، بَارَكَ اللهُ فِيهِ.':(a.pct>=70&&commit>=60?'جَيِّدٌ: يَحْتَاجُ إِلَى مَزِيدٍ مِنَ الِانْتِظَامِ.':'يَحْتَاجُ إِلَى مُتَابَعَةٍ: نِسْبَةُ الحُضُورِ أَوِ التَّسْمِيعِ مُنْخَفِضَةٌ، يُنْصَحُ بِالتَّوَاصُلِ مَعَ وَلِيِّ الأَمْرِ.'));
   return {a:a,g:g,ms:ms,vals:vals,mx:mx,verdict:v,
     line:'حَافِظٌ: '+a.done+' · يُعِيدُ: '+a.rep+' · لَمْ يُسَمِّعْ: '+a.none+' · غِيَابٌ بِعُذْرٍ: '+a.e+' · بِدُونِ عُذْرٍ: '+a.x,
-    tiles:[[days,'يَوْمًا مُنْذُ الِانْضِمَامِ'],[a.total+(sc?' / '+sc:''),'حِصَصٌ مُسَجَّلَةٌ'+(sc?' مِنَ المُجَدْوَلَةِ':'')],[a.total?a.pct+'%':'—','نِسْبَةُ الحُضُورِ'],[a.p?commit+'%':'—','نِسْبَةُ الِالْتِزَامِ بِالتَّسْمِيعِ'],[streak(s),'أَيَّامُ الِالْتِزَامِ الحَالِيَّةُ'],[best(s),'أَطْوَلُ مُدَّةِ الْتِزَامٍ'],[a.pages,'صَفَحَاتٌ جَدِيدَةٌ'],[juz,'جُزْءًا تَقْرِيبًا (٢٠ صَفْحَةً)']]};
+    tiles:[[days,'يَوْمًا مُنْذُ الِانْضِمَامِ'],[a.total+(sc?' / '+sc:''),'حِصَصٌ مُسَجَّلَةٌ'+(sc?' مِنَ المُجَدْوَلَةِ':'')],[a.total?a.pct+'%':'—','نِسْبَةُ الحُضُورِ'],[a.p?commit+'%':'—','نِسْبَةُ الِالْتِزَامِ بِالتَّسْمِيعِ'],[streak(s),'أَيَّامُ الِالْتِزَامِ الحَالِيَّةُ'],[best(s),'أَطْوَلُ مُدَّةِ الْتِزَامٍ'],[a.done,'حِصَصُ الحِفْظِ'],[a.rep,'حِصَصُ إِعَادَةِ التَّسْمِيعِ']]};
 }
 function vAnalysis(){
   var s=stu(ui.sid);if(!s){ui.tab='students';return vGroups()}
   var D=analysisData(s);
   var h='<div class="row sp"><button class="btn sm" onclick="ui.tab=\'student\';render();toTop()">← رُجُوعٌ</button><button class="btn sm p" onclick="pdfAnalysis()">📄 حَفْظُ PDF</button></div><div class="card"><div class="big">📊 تَحْلِيلُ '+esc(s.name)+'</div><div class="mut">'+(D.g?esc(D.g.name)+' · ':'')+'مُنْذُ '+dmy(s.joined)+'</div>';
   h+='<div class="grid">'+D.tiles.map(function(t){return '<div class="tile"><b>'+t[0]+'</b><div class="mut">'+t[1]+'</div></div>'}).join('')+'</div><div class="mut" style="margin-top:10px">'+D.line+'</div></div>';
-  h+='<div class="card"><b>الصَّفَحَاتُ الجَدِيدَةُ شَهْرِيًّا</b>'+D.ms.map(function(m,j){return '<div class="row sp" style="margin-top:8px"><span class="mut">'+monthName(m)+'</span><span><b>'+D.vals[j]+'</b></span></div><div class="bar"><i style="width:'+Math.round(D.vals[j]/D.mx*100)+'%"></i></div>'}).join('')+'</div>';
+  h+='<div class="card"><b>حِصَصُ التَّسْمِيعِ شَهْرِيًّا</b>'+D.ms.map(function(m,j){return '<div class="row sp" style="margin-top:8px"><span class="mut">'+monthName(m)+'</span><span><b>'+D.vals[j]+'</b></span></div><div class="bar"><i style="width:'+Math.round(D.vals[j]/D.mx*100)+'%"></i></div>'}).join('')+'</div>';
   return h+'<div class="card"><b>الخُلَاصَةُ</b><div style="margin-top:6px">'+D.verdict+'</div></div>';
 }
 
@@ -398,7 +454,7 @@ async function pdfAnalysis(){
     x.fillStyle='#eef3f0';rr(x,xx,yy,W,H,18);x.fill();x.textAlign='center';x.fillStyle='#1d5c47';x.font='700 46px '+FF;x.fillText(String(t[0]),xx+W/2,yy+62);x.fillStyle='#5d7169';x.font='400 22px '+FF;x.fillText(t[1],xx+W/2,yy+104)});
   p.y=ty+4*148+6;
   P_wrap(p,D.line,22,'#5d7169');p.y+=18;
-  P_line(p,'الصَّفَحَاتُ الجَدِيدَةُ شَهْرِيًّا',30,'#14332b',700);
+  P_line(p,'حِصَصُ التَّسْمِيعِ شَهْرِيًّا',30,'#14332b',700);
   D.ms.forEach(function(m,j){var y=p.y+8;x.textAlign='right';x.fillStyle='#14332b';x.font='400 24px '+FF;x.fillText(monthName(m),1120,y+22);x.textAlign='left';x.fillText(String(D.vals[j]),70,y+22);
     x.fillStyle='#d6e0db';rr(x,70,y+32,1050,14,7);x.fill();var w=Math.round(1050*D.vals[j]/D.mx);if(w>0){x.fillStyle='#1d5c47';rr(x,1120-w,y+32,w,14,7);x.fill()}p.y=y+54});
   p.y+=12;P_line(p,'الخُلَاصَةُ',30,'#14332b',700);P_wrap(p,D.verdict,26,'#14332b');
@@ -407,9 +463,9 @@ async function pdfAnalysis(){
 async function pdfStats(){
   var L=S.students.filter(inGf);if(!L.length){toast('لا يوجد طلاب');return}
   try{await fonts()}catch(e){}
-  var pages=[],p=P_new(),W=[270,90,90,130,90,90,110,100,90],H=['الطَّالِبُ','حُضُورٌ','غِيَابٌ','نِسْبَةُ الحُضُورِ','حَافِظٌ','إِعَادَةٌ','لَمْ يُسَمِّعْ','صَفَحَاتٌ','الِالْتِزَامُ'];
-  P_line(p,'إِحْصَائِيَّاتُ الشَّهْرِ',42,'#1d5c47',700,'Amiri, serif');
-  P_line(p,monthName(ui.month),30,'#14332b',700);
+  var R=spRange(),pages=[],p=P_new(),W=[300,100,100,150,100,100,110,90],H=['الطَّالِبُ','حُضُورٌ','غِيَابٌ','نِسْبَةُ الحُضُورِ','حَافِظٌ','إِعَادَةٌ','لَمْ يُسَمِّعْ','الِالْتِزَامُ'];
+  P_line(p,'إِحْصَائِيَّاتُ '+{d:'اليَوْمِ',w:'الأُسْبُوعِ',m:'الشَّهْرِ'}[ui.sp],42,'#1d5c47',700,'Amiri, serif');
+  P_line(p,R.label,28,'#14332b',700);
   P_line(p,ui.gf==='all'?'كُلُّ الحَلَقَاتِ':(ui.gf==='_'?'بِدُونِ حَلْقَةٍ':(grp(ui.gf)||{name:''}).name),24,'#5d7169',400);
   P_line(p,dateTxt(today()),22,'#b8862a',400);p.y+=18;
   function cells(v,bg,col,wt){var x=p.x,cx=1120,i;x.fillStyle=bg;x.fillRect(70,p.y,1050,52);x.fillStyle=col;x.font=wt+' 21px '+FF;
@@ -417,19 +473,26 @@ async function pdfStats(){
   cells(H,'#1d5c47','#ffffff',700);
   L.forEach(function(s,k){
     if(p.y>1540){P_foot(p);pages.push(p);p=P_new();p.y=50;cells(H,'#1d5c47','#ffffff',700)}
-    var m=monthStats(s,ui.month);
-    cells([s.name,m.p,m.e+m.x,m.total?m.pct+'%':'—',m.done,m.rep,m.none,m.pages,streak(s)],k%2?'#f4f8f6':'#ffffff','#14332b',400);
+    var m=agg(s,R.f);
+    cells([s.name,m.p,m.e+m.x,m.total?m.pct+'%':'—',m.done,m.rep,m.none,streak(s)],k%2?'#f4f8f6':'#ffffff','#14332b',400);
   });
-  P_foot(p);pages.push(p);savePdf(pages,'إحصائيات '+ui.month);
+  P_foot(p);pages.push(p);savePdf(pages,'إحصائيات '+{d:'اليوم',w:'الأسبوع',m:'الشهر'}[ui.sp]+' '+(ui.sp==='m'?ui.month:ui.sdate));
 }
 
 /* الإحصائيات */
+function spRange(){
+  var d=ui.sdate;
+  if(ui.sp==='d')return {f:function(x){return x===d},label:dateTxt(d)};
+  if(ui.sp==='w'){var a=weekStart(d),b=addDays(a,6);return {f:function(x){return x>=a&&x<=b},label:'الأُسْبُوعُ: '+sh(a)+' إِلَى '+sh(b)}}
+  return {f:function(x){return x.slice(0,7)===ui.month},label:monthName(ui.month)};
+}
 function vStats(){
-  var h='<div class="card row sp"><div><div class="big">إِحْصَائِيَّاتُ الشَّهْرِ</div><div style="font-weight:600;margin-top:2px">'+dateLabel(today())+'</div></div><input type="month" style="width:auto" value="'+ui.month+'" onchange="ui.month=this.value||ui.month;render()"></div>'+gfBar();
+  var R=spRange();
+  var h='<div class="card"><div class="big">الإِحْصَائِيَّاتُ</div><div style="font-weight:600;margin-top:2px">'+dateLabel(today())+'</div><div class="att" style="margin-top:12px">'+[['d','اليَوْمِ'],['w','الأُسْبُوعِ'],['m','الشَّهْرِ']].map(function(o){return '<button class="a-p '+(ui.sp===o[0]?'on':'')+'" onclick="ui.sp=\''+o[0]+'\';render()">'+o[1]+'</button>'}).join('')+'</div><div class="row" style="margin-top:10px"><span class="mut">'+(ui.sp==='m'?'الشَّهْرُ:':'التَّارِيخُ:')+'</span>'+(ui.sp==='m'?'<input type="month" style="width:auto" value="'+ui.month+'" onchange="ui.month=this.value||ui.month;render()">':'<input type="date" style="width:auto" value="'+ui.sdate+'" onchange="ui.sdate=this.value||ui.sdate;render()">')+'</div><div class="mut" style="margin-top:6px">'+R.label+'</div></div>'+gfBar();
   var L=S.students.filter(inGf);
   if(!S.students.length)return h+noStudents();
-  h+='<div class="card scroll"><table><tr><th>الطَّالِبُ</th><th>حُضُورٌ</th><th>غِيَابٌ</th><th>نِسْبَةُ الحُضُورِ</th><th>حَافِظٌ</th><th>إِعَادَةٌ</th><th>لَمْ يُسَمِّعْ</th><th>صَفَحَاتٌ</th><th>🔥</th></tr>';
-  L.forEach(function(s){var m=monthStats(s,ui.month);h+='<tr><td>'+esc(s.name)+'</td><td>'+m.p+'</td><td>'+(m.e+m.x)+'</td><td>'+(m.total?m.pct+'%':'—')+'</td><td>'+m.done+'</td><td>'+m.rep+'</td><td>'+m.none+'</td><td>'+m.pages+'</td><td>'+streak(s)+'</td></tr>'});
+  h+='<div class="card scroll"><table><tr><th>الطَّالِبُ</th><th>حُضُورٌ</th><th>غِيَابٌ</th><th>نِسْبَةُ الحُضُورِ</th><th>حَافِظٌ</th><th>إِعَادَةٌ</th><th>لَمْ يُسَمِّعْ</th><th>🔥</th></tr>';
+  L.forEach(function(s){var m=agg(s,R.f);h+='<tr><td>'+esc(s.name)+'</td><td>'+m.p+'</td><td>'+(m.e+m.x)+'</td><td>'+(m.total?m.pct+'%':'—')+'</td><td>'+m.done+'</td><td>'+m.rep+'</td><td>'+m.none+'</td><td>'+streak(s)+'</td></tr>'});
   return h+'</table></div><div class="row" style="justify-content:center"><button class="btn p" onclick="pdfStats()">📄 حَفْظُ نُسْخَةِ PDF</button></div>';
 }
 
@@ -438,7 +501,7 @@ function vSettings(){
   var p=S.profile;
   return '<div class="card"><div class="big">الحِسَابُ</div><label>الاسم</label><input value="'+esc(p.name)+'" onchange="setName(this.value)"><label>صُورَتُكَ</label><div class="row"><input type="file" accept="image/*" onchange="pickPhoto(this)" style="flex:1">'+(p.photo?'<button class="btn d sm" onclick="S.profile.photo=\'\';save();render()">إِزَالَةٌ</button>':'')+'</div></div>'+
   '<div class="card"><div class="big">نُسْخَةٌ احْتِيَاطِيَّةٌ</div><p class="mut">احفظ ملف النسخة في مكان آمن (واتساب لنفسك أو درايف). لو ضاع شيء ترجعه من هنا.</p><div class="row"><button class="btn p" onclick="exp()">تَصْدِيرُ البَيَانَاتِ</button></div><div id="expbox"></div></div>'+
-  '<div class="card"><b>اسْتِرْجَاعُ نُسْخَةٍ</b><p class="mut">اختر ملف النسخة. سيحلّ محل البيانات الحالية.</p><input type="file" accept=".json,application/json" onchange="imp(this)"></div>'+vContact()+'<div style="text-align:center;font-family:Amiri,serif;font-size:28px;line-height:2;color:var(--gold);margin:14px 0 2px">﴿وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا﴾</div>';
+  '<div class="card"><b>اسْتِرْجَاعُ نُسْخَةٍ</b><p class="mut">اختر ملف النسخة. سيحلّ محل البيانات الحالية.</p><input type="file" accept=".json,application/json" onchange="imp(this)"></div>'+vContact()+'<div style="text-align:center;font-family:Amiri,serif;font-size:28px;line-height:2;color:var(--gold);margin:14px 0 2px">﴿وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا﴾</div>'+(APPV?'<div class="mut" style="text-align:center">الإِصْدَارُ '+esc(APPV)+'</div>':'');
 }
 var PH_O='201273766004',PH_V='201063685714',PORT='https://aldaramy.github.io/mahmoud-portfolio/';
 function lk(href,label,ico,full,tel){return '<a class="lk'+(full?' full':'')+'" href="'+href+'"'+(tel?'':' target="_blank" rel="noopener"')+'><span>'+ico+'</span>'+label+'</a>'}
@@ -479,7 +542,7 @@ function imp(inp){
 }
 
 setInterval(function(){var e=$('clk');if(e)e.textContent=clockStr()},1000);
-if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)&&location.hostname!=='localhost'&&!window.Capacitor){navigator.serviceWorker.register('sw.js').catch(function(){})}
+if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)&&location.hostname!=='localhost'){navigator.serviceWorker.register('sw.js').catch(function(){})}
 load();
 </script>
 </body>
