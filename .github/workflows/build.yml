@@ -1,9 +1,12 @@
-name: Build Windows app
+name: Build and release Windows app
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   windows:
@@ -13,9 +16,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - name: Compute version (major.minor from package.json + build number)
+        shell: bash
+        run: |
+          BASE=$(node -p "require('./package.json').version.split('.').slice(0,2).join('.')")
+          echo "VER=$BASE.${{ github.run_number }}" >> "$GITHUB_ENV"
       - run: npm install
-      - run: npx electron-builder --win --publish never
-      - uses: actions/upload-artifact@v4
-        with:
-          name: Halaqa-Windows
-          path: dist/*.exe
+      - name: Build and publish GitHub Release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx electron-builder --win --publish always -c.extraMetadata.version=$VER
